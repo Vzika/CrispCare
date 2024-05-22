@@ -1,10 +1,14 @@
+# website/views.py
+
 from flask import Blueprint, request, jsonify
+from flask_login import login_required
 from .models import User, HouseHelp, Booking
 from . import db
 
 views = Blueprint('views', __name__)
 
 @views.route('/')
+@login_required
 def home():
     return "Welcome to CrispCare!"
 
@@ -49,3 +53,4 @@ def register_househelp():
     db.session.add(new_househelp)
     db.session.commit()
     return jsonify({'message': 'HouseHelp registration successful!', 'househelp_id': new_househelp.id})
+

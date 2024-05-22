@@ -1,5 +1,5 @@
-# website/models.py
 from . import db
+from flask_login import UserMixin
 
 class HouseHelp(db.Model):
     __tablename__ = 'househelps'
@@ -18,10 +18,18 @@ class Booking(db.Model):
     time = db.Column(db.Time, nullable=False)
     requirements = db.Column(db.String(200), nullable=True)
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
+
+    # Flask-Login properties
+    @property
+    def is_active(self):
+        return True
+
+    def get_id(self):
+        return self.id
 
